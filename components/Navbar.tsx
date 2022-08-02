@@ -6,7 +6,7 @@ import { TbLayersLinked } from "react-icons/tb";
 
 const Navbar = () => {
   return (
-    <div className="navbar bg-base-100 max-w-7xl justify-between">
+    <div className="navbar bg-base-100 justify-between">
       <div className="flex items-center gap-2 btn btn-ghost normal-case text-xl">
         <TbLayersLinked />
         <h1 className="font-bold">SponsorArc</h1>
@@ -17,7 +17,7 @@ const Navbar = () => {
             <Link href="/" className="">
               <a className="flex flex-col items-center">
                 <AiFillHome />
-                About
+                Home
               </a>
             </Link>
           </li>
