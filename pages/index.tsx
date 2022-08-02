@@ -1,8 +1,8 @@
 import Head from "next/head";
 import Layout from "../components/layout";
 import NestedLayout from "../components/nested-layout";
-import type { ReactElement } from "react";
 import Home from "../components/Home";
+import { ReactElement} from "react";
 import { NextPageWithLayout } from "./_app";
 
 const Page: NextPageWithLayout = () => {
