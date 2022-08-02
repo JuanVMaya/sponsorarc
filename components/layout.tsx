@@ -5,7 +5,7 @@ type Props = {
 };
 const Layout = ({ children }: Props) => {
   return (
-    <div className="flex">
+    <div className="flex flex-col justify-center items-center">
       <Navbar />
       {children}
     </div>
