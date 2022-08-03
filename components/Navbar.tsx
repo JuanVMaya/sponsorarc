@@ -7,7 +7,7 @@ import { TbLayersLinked } from "react-icons/tb";
 const Navbar = () => {
   const { user, signOut } = useUser();
   return (
-    <div className="navbar bg-base-100 justify-between">
+    <div className="navbar bg-base-100 justify-between z-10">
       <div className="flex items-center gap-2 btn btn-ghost normal-case text-xl">
         <TbLayersLinked />
         <h1 className="font-bold text-2xl">SponsorArc</h1>

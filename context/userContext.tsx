@@ -15,7 +15,7 @@ const userContextDefaultValues: UserContextType = {
     channel_name: "Marques Brownlee",
     email: "marques@MKBHD.com",
     location: "United States",
-    subscriber_count: "1.59M",
+    subscriber_count: "15.9M",
     loggedIn: false,
   },
   logIn: (user) => {},
