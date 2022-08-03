@@ -12,8 +12,17 @@ export interface IUser {
   email: string;
   location: string;
   subscriber_count: string|null;
+  featuredVideos?:[
+    {
+      title?: string;
+      viewCount?: string;
+      likeCount?: string;
+      id?: string;
+    }
+  ];
+  profilePicture:string;
   loggedIn: boolean;
-}
+};
 export type UserContextType = {
   user: IUser;
   logIn: (user: IUser) => void;
