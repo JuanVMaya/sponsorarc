@@ -26,14 +26,14 @@ const Navbar = () => {
               </a>
             </Link>
           </li>
-          <li>
+          {/* <li>
             <Link href="/" className="">
               <a className="flex flex-col items-center">
                 <FaCompass />
                 Discover
               </a>
             </Link>
-          </li>
+          </li> */}
           <li>
             <a className="flex flex-col items-center">
               <FaSuitcase />
