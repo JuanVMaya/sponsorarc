@@ -24,5 +24,9 @@ module.exports = {
   theme: {
     extend: {},
   },
-  plugins: ["tailwindcss", "postcss-preset-env", require("daisyui")],
+  plugins: [
+    "tailwindcss",
+    "postcss-preset-env",
+    require("daisyui")
+  ],
 };

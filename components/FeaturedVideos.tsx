@@ -3,7 +3,6 @@ import { AiFillLike} from "react-icons/ai";
 import { BsEyeFill } from "react-icons/bs";
 import {toHumanReadableNumbers} from '../utils/humanReadableNumbers';
 
-
 const FeaturedVideos = () => {
   const { user } = useUser();
 

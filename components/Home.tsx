@@ -3,6 +3,7 @@ import { useUser } from "../context/userContext";
 import { toHumanReadableNumbers } from "../utils/humanReadableNumbers";
 import { RiSettings3Fill } from "react-icons/ri";
 import { AiFillFileAdd } from "react-icons/ai";
+import CreatorStats from "./CreatorStats";
 
 const Home = () => {
   const { user, logIn } = useUser();
@@ -22,7 +23,8 @@ const Home = () => {
             {user.first_name} {user.last_name}
           </h2>
           <p className="font-semibold">
-            {user.represent}: {user?.channel_name}{user?.company_name}
+            {user.represent}: {user?.channel_name}
+            {user?.company_name}
           </p>
           {user.subscriberCount && (
             <p>
@@ -45,7 +47,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div className="card w-full glass px-8 pt-8 gap-2">
+      <div className="card w-full glass p-8 gap-2 overflow-auto scrollbar">
         <div className="flex flex-col w-full border-opacity-50">
           <div className="grid card bg-base-300 rounded-box p-8">
             <h1 className="card-title">Hello {user.first_name}</h1>
@@ -53,10 +55,8 @@ const Home = () => {
           </div>
           <div className="divider" />
           <FeaturedVideos />
-          <div className="grid card bg-base-300 rounded-box mt-8 p-8">
-            <h1 className="card-title">Stats</h1>
-            <p>Description: {user.description}</p>
-          </div>
+          <div className="divider" />
+          <CreatorStats />
         </div>
       </div>
     </div>

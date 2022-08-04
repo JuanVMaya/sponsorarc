@@ -7,12 +7,15 @@ export interface IUser {
   represent: string;
   industry: string;
   username: string;
-  company_name: string|null;
-  channel_name: string|null;
+  company_name: string | null;
+  channel_name: string | null;
   email: string;
   location: string;
+  creatorStartDate?: string;
   subscriberCount?: string;
-  featuredVideos?:[
+  totalViews?: string;
+  videoCount?: string;
+  featuredVideos?: [
     {
       title?: string;
       viewCount?: string;
@@ -20,9 +23,9 @@ export interface IUser {
       id?: string;
     }
   ];
-  profilePicture:string;
+  profilePicture: string;
   loggedIn: boolean;
-};
+}
 export type UserContextType = {
   user: IUser;
   logIn: (user: IUser) => void;
