@@ -5,9 +5,9 @@ type Props = {
 };
 const Layout = ({ children }: Props) => {
   return (
-    <div className="flex flex-col items-center max-w-7xl m-auto h-screen">
+    <div className="flex flex-col items-center max-w-7xl m-auto">
       <Navbar />
-      <main className="flex flex-grow w-full items-center px-8 gap-6 overflow-y-auto">
+      <main className="flex flex-grow w-full items-center px-8 gap-6">
         {children}
       </main>
     </div>

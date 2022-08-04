@@ -1,9 +1,13 @@
 import FeaturedVideos from "./FeaturedVideos";
 import { useUser } from "../context/userContext";
+import { useEffect } from "react";
+import axios from "axios";
 import { toHumanReadableNumbers } from "../utils/humanReadableNumbers";
+import CreatorStats from "./CreatorStats";
 import { RiSettings3Fill } from "react-icons/ri";
 import { AiFillFileAdd } from "react-icons/ai";
-import CreatorStats from "./CreatorStats";
+import { tohumanReadableTime } from "../utils/humanReadableTime";
+import BrandDeals from "./BrandDeals";
 
 const Home = () => {
   const { user, logIn } = useUser();
@@ -50,13 +54,25 @@ const Home = () => {
       <div className="card w-full glass p-8 gap-2 overflow-auto scrollbar">
         <div className="flex flex-col w-full border-opacity-50">
           <div className="grid card bg-base-300 rounded-box p-8">
-            <h1 className="card-title">Hello {user.first_name}</h1>
+            <h1 className="card-title">
+              Hello {user.first_name}{" "}
+              {user.company_name && `from ${user.company_name}`}
+            </h1>
             <p>Description: {user.description}</p>
           </div>
           <div className="divider" />
-          <FeaturedVideos />
-          <div className="divider" />
-          <CreatorStats />
+          {user.represent === "Brand" && <BrandDeals />}
+          {user.represent === "Creator" && (
+            <>
+              <FeaturedVideos />
+              <div className="divider" />
+              <CreatorStats
+                creatorStartDate={user.creatorStartDate}
+                totalViews={user.totalViews}
+                videoCount={user.videoCount}
+              />
+            </>
+          )}
         </div>
       </div>
     </div>

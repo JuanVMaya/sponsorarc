@@ -15,6 +15,19 @@ export interface IUser {
   subscriberCount?: string;
   totalViews?: string;
   videoCount?: string;
+  brandDeals?: [{
+    id: number;
+    title: string;
+    description: string;
+    subject: string;
+    pay: number;
+    user_id: number;
+    updated_at: string;
+    timeframe: string;
+    social_networks: string;
+  }
+
+  ];
   featuredVideos?: [
     {
       title?: string;

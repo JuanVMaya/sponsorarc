@@ -1,6 +1,12 @@
-import { createContext, useState, ReactNode, useContext, useEffect } from 'react';
+import {
+  createContext,
+  useState,
+  ReactNode,
+  useContext,
+  useEffect,
+} from "react";
 import { UserContextType, IUser } from "../@types/user";
-import axios from 'axios';
+import axios from "axios";
 
 const userContextDefaultValues: UserContextType = {
   user: {
@@ -16,7 +22,8 @@ const userContextDefaultValues: UserContextType = {
     channel_name: "Marques Brownlee",
     email: "marques@MKBHD.com",
     location: "United States",
-    profilePicture: "https://st3.depositphotos.com/6672868/13701/v/600/depositphotos_137014128-stock-illustration-user-profile-icon.jpg",
+    profilePicture:
+      "https://st3.depositphotos.com/6672868/13701/v/600/depositphotos_137014128-stock-illustration-user-profile-icon.jpg",
     loggedIn: false,
   },
   logIn: (user) => {},
@@ -47,21 +54,24 @@ const UserProvider = ({ children }: Props) => {
     channel_name: "Marques Brownlee",
     email: "marques@MKBHD.com",
     location: "United States",
-    profilePicture: "https://st3.depositphotos.com/6672868/13701/v/600/depositphotos_137014128-stock-illustration-user-profile-icon.jpg",
+    profilePicture:
+      "https://st3.depositphotos.com/6672868/13701/v/600/depositphotos_137014128-stock-illustration-user-profile-icon.jpg",
     loggedIn: false,
   });
+  //1 - Marques Brownlee
+  //9 - Tina Rodriguez
+  //8 - Erik Bryann (2 brand deals)
   useEffect(() => {
-    axios.get("http://localhost:8080/users/1").then(
-      (response) => {
-        setUser({...user,...response.data});
-      }
-    ).catch(
-      (error) => {
+    axios
+      .get("http://localhost:8080/users/8")
+      .then((response) => {
+        setUser({ ...user, ...response.data });
+      })
+      .catch((error) => {
         console.log("There was an error retrieving this offer:", error);
-      }
-    )
+      });
   }, []);
-  
+
   const logIn = (user: IUser) => {
     setUser({ ...user, loggedIn: true });
   };
