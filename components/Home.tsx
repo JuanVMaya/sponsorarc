@@ -1,7 +1,8 @@
 import FeaturedVideos from "./FeaturedVideos";
 import { useUser } from "../context/userContext";
+import { toHumanReadableNumbers } from "../utils/humanReadableNumbers";
 import { RiSettings3Fill } from "react-icons/ri";
-import { AiFillFileAdd, AiFillLike } from "react-icons/ai";
+import { AiFillFileAdd } from "react-icons/ai";
 
 const Home = () => {
   const { user, logIn } = useUser();
@@ -21,9 +22,15 @@ const Home = () => {
             {user.first_name} {user.last_name}
           </h2>
           <p className="font-semibold">
-            {user.represent}: {user?.channel_name}
+            {user.represent}: {user?.channel_name}{user?.company_name}
           </p>
-          <p>Subscribers: {user?.subscriber_count}</p>
+          {user.subscriberCount && (
+            <p>
+              Subscribers:{" "}
+              {user.subscriberCount &&
+                toHumanReadableNumbers(user.subscriberCount)}
+            </p>
+          )}
           <p>Industry: {user.industry}</p>
           <p>Location: {user.location}</p>
           <div className="card-actions flex flex-col">

@@ -1,18 +1,8 @@
 import { useUser } from "../context/userContext";
 import { AiFillLike} from "react-icons/ai";
 import { BsEyeFill } from "react-icons/bs";
+import {toHumanReadableNumbers} from '../utils/humanReadableNumbers';
 
-
-const toHumanReadableNumbers = (num: string): string => {
-    const numInt = parseInt(num);
-    if (numInt >= 1000000) {
-      return (numInt / 1000000).toFixed(2) + "M";
-    }
-    if (numInt >= 1000) {
-      return (numInt / 1000).toFixed(2) + "K";
-    }
-    return numInt.toString();
-  };
 
 const FeaturedVideos = () => {
   const { user } = useUser();

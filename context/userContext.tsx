@@ -16,7 +16,6 @@ const userContextDefaultValues: UserContextType = {
     channel_name: "Marques Brownlee",
     email: "marques@MKBHD.com",
     location: "United States",
-    subscriber_count: "15.9M",
     profilePicture: "https://st3.depositphotos.com/6672868/13701/v/600/depositphotos_137014128-stock-illustration-user-profile-icon.jpg",
     loggedIn: false,
   },
@@ -48,7 +47,6 @@ const UserProvider = ({ children }: Props) => {
     channel_name: "Marques Brownlee",
     email: "marques@MKBHD.com",
     location: "United States",
-    subscriber_count: "15.9M",
     profilePicture: "https://st3.depositphotos.com/6672868/13701/v/600/depositphotos_137014128-stock-illustration-user-profile-icon.jpg",
     loggedIn: false,
   });

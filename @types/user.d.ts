@@ -11,7 +11,7 @@ export interface IUser {
   channel_name: string|null;
   email: string;
   location: string;
-  subscriber_count: string|null;
+  subscriberCount?: string;
   featuredVideos?:[
     {
       title?: string;
