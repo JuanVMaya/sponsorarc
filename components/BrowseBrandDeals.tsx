@@ -17,6 +17,7 @@ interface IBrandDeal {
   updated_at: string;
   timeframe: string;
   social_networks: string;
+  users_id: number;
   first_name?: string;
   last_name?: string;
   email?: string;
@@ -29,9 +30,19 @@ interface IBrandDeal {
 const BrowseBrandDeals = () => {
   const { user } = useUser();
   const [brandDeals, setBrandDeals] = useState<IBrandDeal[]>([]);
-  const [selectedBrandDealId, setSelectedBrandDealId] = useState<number>(0);
+  const [selectedBrandDealId, setSelectedBrandDealId] = useState<number>(1);
   const [brandDealDetails, setBrandDealDetails] = useState<IBrandDeal>();
 
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/branddeals")
+      .then((response) => {
+        setBrandDeals(response.data);
+      })
+      .catch((error) => {
+        console.log("There was an error retrieving brand deals:", error);
+      });
+  }, []);
   useEffect(() => {
     axios
       .get("http://localhost:8080/branddeals/" + selectedBrandDealId)
@@ -42,17 +53,6 @@ const BrowseBrandDeals = () => {
         console.log("There was an error retrieving brand deals:", error);
       });
   }, [selectedBrandDealId]);
-  useEffect(() => {
-    axios
-      .get("http://localhost:8080/branddeals")
-      .then((response) => {
-        setBrandDeals(response.data);
-        setSelectedBrandDealId(1);
-      })
-      .catch((error) => {
-        console.log("There was an error retrieving brand deals:", error);
-      });
-  }, []);
 
   const handleSelectBrandDeal = (id: number) => {
     setSelectedBrandDealId(id);
@@ -82,11 +82,11 @@ const BrowseBrandDeals = () => {
           </div>
         ))}
       </div>
-      {selectedBrandDealId ? (
+      {brandDealDetails && selectedBrandDealId ? (
         <div className="card flex-column w-full glass p-8 gap-2 ">
           <div className="flex flex-col w-full border-opacity-50 gap-2">
             <div className="grid card bg-base-300 rounded-box p-8">
-              <h1 className="card-title">{brandDealDetails?.title} </h1>
+              <h1 className="card-title">{brandDealDetails?.title}</h1>
             </div>
             <div className="divider" />
             <div className="grid card bg-base-300 rounded-box p-8">
@@ -112,13 +112,17 @@ const BrowseBrandDeals = () => {
                   <HiLocationMarker />
                   {brandDealDetails?.location}
                 </div>
-                <a
-                  href={`mailto:{brandDealDetails?.email}`}
-                  className="btn btn-success flex items-center gap-2 justify-self-end"
-                >
-                  <MdEmail />
-                  Contact
-                </a>
+                {user.id !== brandDealDetails?.users_id ? (
+                  <a
+                    href={`mailto:{brandDealDetails?.email}`}
+                    className="btn btn-success flex items-center gap-2 justify-self-end"
+                  >
+                    <MdEmail />
+                    Contact
+                  </a>
+                ) : (
+                  <p className="badge badge-lg">You own this</p>
+                )}
               </div>
               <div className="card flex-column flex-grow w-3/6 bg-base-300 rounded-box p-8 gap-2">
                 <h1 className="card-title">Details:</h1>
