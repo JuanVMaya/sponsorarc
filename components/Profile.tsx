@@ -10,7 +10,7 @@ const Profile = () => {
   const { user } = useUser();
   return user.loggedIn ? (
     <div className="self-start flex gap-8 flex-grow h-full max-w-full">
-      <div className="card w-3/12 glass pt-8 self-start">
+      <div className="card w-4/12 glass pt-8 self-start">
         <figure>
           <img
             className="rounded-full w-24 m-auto"

@@ -26,17 +26,10 @@ const Navbar = () => {
               </a>
             </Link>
           </li>
-          {/* <li>
-            <Link href="/" className="">
-              <a className="flex flex-col items-center">
-                <FaCompass />
-                Discover
-              </a>
-            </Link>
-          </li> */}
+
           <li>
             <a className="flex flex-col items-center">
-              <FaSuitcase />
+              <FaCompass />
               Browse
               <svg
                 className="fill-current"
@@ -61,7 +54,14 @@ const Navbar = () => {
               </li>
             </ul>
           </li>
-
+          <li>
+            <Link href="/" className="">
+              <a className="flex flex-col items-center">
+                <FaSuitcase />
+                My Deals
+              </a>
+            </Link>
+          </li>
           {user.loggedIn ? (
             <li>
               <Link href="/profile">
