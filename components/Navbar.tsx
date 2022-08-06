@@ -43,7 +43,7 @@ const Navbar = () => {
             </a>
             <ul className="p-2 bg-base-100">
               <li>
-                <Link href="/branddeals">
+                <Link href="/brand-deals/">
                   <a>Brand Deals</a>
                 </Link>
               </li>
@@ -55,7 +55,7 @@ const Navbar = () => {
             </ul>
           </li>
           <li>
-            <Link href="/" className="">
+            <Link href="/my-brand-deals">
               <a className="flex flex-col items-center">
                 <FaSuitcase />
                 My Deals

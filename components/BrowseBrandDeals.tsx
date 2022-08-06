@@ -31,7 +31,7 @@ interface IBrandDeal {
 const BrowseBrandDeals = () => {
   const { user } = useUser();
   const [brandDeals, setBrandDeals] = useState<IBrandDeal[]>([]);
-  const [selectedBrandDealId, setSelectedBrandDealId] = useState<number>(1);
+  const [selectedBrandDealId, setSelectedBrandDealId] = useState<number>(0);
   const [brandDealDetails, setBrandDealDetails] = useState<IBrandDeal>();
 
   useEffect(() => {
@@ -85,7 +85,7 @@ const BrowseBrandDeals = () => {
             </div>
           ))}
       </div>
-      {brandDealDetails && selectedBrandDealId ? (
+      {selectedBrandDealId && brandDealDetails ? (
         <div className="card flex-column w-full glass p-8 gap-2 ">
           <div className="flex flex-col w-full border-opacity-50 gap-2">
             <div className="grid card bg-base-300 rounded-box p-8">
@@ -140,6 +140,7 @@ const BrowseBrandDeals = () => {
               </div>
             </div>
           </div>
+          {/* <button className="btn btn-primary">Show Interest</button> This can be a future addition */}
         </div>
       ) : (
         <div className="alert alert-info shadow-lg mb-auto">
