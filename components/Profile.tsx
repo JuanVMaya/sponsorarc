@@ -67,7 +67,7 @@ const Profile = () => {
           {user.represent === "Brand" && <BrandDeals />}
           {user.represent === "Creator" && (
             <>
-              <FeaturedVideos />
+              {user.featuredVideos && <FeaturedVideos featuredVideos={user.featuredVideos}/>}
               <div className="divider" />
               <CreatorStats
                 creatorStartDate={user.creatorStartDate}

@@ -1,9 +1,20 @@
 import { useUser } from "../context/userContext";
-import { AiFillLike} from "react-icons/ai";
+import { AiFillLike } from "react-icons/ai";
 import { BsEyeFill } from "react-icons/bs";
-import {toHumanReadableNumbers} from '../utils/humanReadableNumbers';
+import { toHumanReadableNumbers } from "../utils/humanReadableNumbers";
 
-const FeaturedVideos = () => {
+type AppProps = {
+  featuredVideos: [
+    {
+      id?: string;
+      title?: string;
+      likeCount?: string;
+      viewCount?: string;
+    }
+  ];
+};
+
+const FeaturedVideos = ({ featuredVideos }: AppProps) => {
   const { user } = useUser();
 
   return (
@@ -17,7 +28,7 @@ const FeaturedVideos = () => {
               key={video.id}
             >
               <iframe
-                src={`https://www.youtube.com/embed/${video?.id}`}
+                src={`https://www.youtube.com/embed/${video.id}`}
                 height="170"
                 title="YouTube video player"
                 frameBorder="0"

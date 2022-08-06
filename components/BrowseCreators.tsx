@@ -122,11 +122,11 @@ const BrowseCreators = () => {
                 <h1 className="card-title">Details:</h1>
 
                 <p className="stat-title">Industry</p>
-                <div className="badge badge-secondary font-semibold">
+                <div className="badge badge-primary font-semibold">
                   {creatorDetails.industry}
                 </div>
                 <p className="stat-title">Subscriber Count</p>
-                <div className="badge badge-primary font-semibold">
+                <div className="badge badge-secondary font-semibold">
                   {toHumanReadableNumbers(creatorDetails.subscriberCount)}
                 </div>
                 <p className="stat-title">Location</p>
