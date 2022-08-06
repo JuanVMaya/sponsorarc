@@ -15,13 +15,11 @@ type AppProps = {
 };
 
 const FeaturedVideos = ({ featuredVideos }: AppProps) => {
-  const { user } = useUser();
-
   return (
     <>
       <h2 className="font-semibold text-lg mb-4">Featured Videos</h2>
       <section className="flex max-w-full justify-between">
-        {user.featuredVideos?.map((video) => {
+        {featuredVideos?.map((video) => {
           return (
             <div
               className="card card-compact w-[32%] bg-base-100 shadow-xl"

@@ -1,4 +1,5 @@
 import FeaturedVideos from "./FeaturedVideos";
+import CreatorStats from "./CreatorStats";
 import { useUser } from "../context/userContext";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -7,7 +8,6 @@ import { MdEmail } from "react-icons/md";
 import { FaUser } from "react-icons/fa";
 import { HiLocationMarker } from "react-icons/hi";
 import { toHumanReadableNumbers } from "../utils/humanReadableNumbers";
-import CreatorStats from "./CreatorStats";
 
 const BrowseCreators = () => {
   const { user } = useUser();
@@ -134,9 +134,15 @@ const BrowseCreators = () => {
               </div>
             </div>
           </div>
-          <CreatorStats creatorStartDate={creatorDetails.creatorStartDate} totalViews={creatorDetails.totalViews} videoCount={creatorDetails.videoCount} />
+          <CreatorStats
+            creatorStartDate={creatorDetails.creatorStartDate}
+            totalViews={creatorDetails.totalViews}
+            videoCount={creatorDetails.videoCount}
+          />
+          {creatorDetails.featuredVideos && (
+            <FeaturedVideos featuredVideos={creatorDetails.featuredVideos} />
+          )}
         </div>
-
       ) : (
         <div className="alert alert-info shadow-lg mb-auto">
           <div>
