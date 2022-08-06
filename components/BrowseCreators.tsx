@@ -7,6 +7,7 @@ import { MdEmail } from "react-icons/md";
 import { FaUser } from "react-icons/fa";
 import { HiLocationMarker } from "react-icons/hi";
 import { toHumanReadableNumbers } from "../utils/humanReadableNumbers";
+import CreatorStats from "./CreatorStats";
 
 const BrowseCreators = () => {
   const { user } = useUser();
@@ -69,7 +70,7 @@ const BrowseCreators = () => {
           ))}
       </div>
       {selectedCreatorId && creatorDetails ? (
-        <div className="card flex-column w-full glass p-8 gap-2 ">
+        <div className="card flex-column w-full glass p-8 gap-2 overflow-auto scrollbar">
           <div className="flex flex-col w-full border-opacity-50 gap-2">
             <div className="card flex flex-row bg-base-300 rounded-box p-8 gap-8">
               <img
@@ -128,13 +129,14 @@ const BrowseCreators = () => {
                 <div className="badge badge-primary font-semibold">
                   {toHumanReadableNumbers(creatorDetails.subscriberCount)}
                 </div>
-
                 <p className="stat-title">Location</p>
                 <div className="badge">{creatorDetails.location}</div>
               </div>
             </div>
           </div>
+          <CreatorStats creatorStartDate={creatorDetails.creatorStartDate} totalViews={creatorDetails.totalViews} videoCount={creatorDetails.videoCount} />
         </div>
+
       ) : (
         <div className="alert alert-info shadow-lg mb-auto">
           <div>

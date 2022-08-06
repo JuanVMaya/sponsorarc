@@ -14,7 +14,7 @@ const CreatorStats = ({
 }: AppProps) => {
   return (
     <>
-      <h1 className="card-title mb-4">Stats</h1>
+      <h1 className="card-title mb-2">Stats</h1>
       <div className="flex gap-4">
         <div className="stats shadow">
           <div className="stat">
@@ -36,7 +36,7 @@ const CreatorStats = ({
             <div className="stat-value">
               {toHumanReadableNumbers(videoCount)}
             </div>
-            <div className="stat-desc">Content created since start</div>
+            <div className="stat-desc">Total videos created</div>
           </div>
         </div>
       </div>
