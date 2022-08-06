@@ -12,7 +12,7 @@ import { toHumanReadableNumbers } from "../utils/humanReadableNumbers";
 const BrowseCreators = () => {
   const { user } = useUser();
   const [creators, setCreators] = useState<IUser[]>([]);
-  const [selectedCreatorId, setSelectedCreatorId] = useState<number>(1);
+  const [selectedCreatorId, setSelectedCreatorId] = useState<number>(0);
   const [creatorDetails, setCreatorDetails] = useState<IUser>();
 
   useEffect(() => {
@@ -32,7 +32,6 @@ const BrowseCreators = () => {
     axios
       .get("http://localhost:8080/users/" + selectedCreatorId)
       .then((response) => {
-        console.log(response.data);
         setCreatorDetails(response.data);
       })
       .catch((error) => {

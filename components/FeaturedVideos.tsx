@@ -49,7 +49,7 @@ const FeaturedVideos = ({ featuredVideos }: AppProps) => {
                   <a
                     href="https://www.youtube.com/watch?v=AxV0_1Y4zl0&ab_channel=MarquesBrownlee"
                     target="_blank"
-                    className="btn btn-primary"
+                    className="btn btn-sm btn-primary"
                   >
                     Open Youtube
                   </a>

@@ -5,7 +5,7 @@ import axios from "axios";
 import { MdEmail } from "react-icons/md";
 import { FaUser } from "react-icons/fa";
 import { HiLocationMarker } from "react-icons/hi";
-import { MdPersonAdd } from "react-icons/md";
+import {MdPersonAdd} from "react-icons/md";
 import { tohumanReadableTime } from "../utils/humanReadableTime";
 
 interface IBrandDeal {
@@ -62,28 +62,26 @@ const BrowseBrandDeals = () => {
   return user.loggedIn ? (
     <div className="self-start flex gap-8 flex-grow max-h-[85vh] max-w-full">
       <div className="card w-5/12 glass p-8 gap-2 overflow-auto scrollbar">
-        {brandDeals
-          ?.filter((brandDeal) => user.id !== brandDeal.users_id)
-          .map((brandDeal) => (
-            <div
-              className={`grid card bg-base-300 rounded-box p-8 gap-2 overflow-visible ${
-                brandDeal.id === brandDealDetails?.id
-                  ? "border-r-4 border-primary"
-                  : ""
-              }`}
-              key={brandDeal.id}
-              onClick={() => handleSelectBrandDeal(brandDeal.id)}
-            >
-              <h1 className="card-title">{brandDeal.title}</h1>
-              <div className="badge badge-primary">Pay: $ {brandDeal.pay}</div>
-              <div className="badge badge-secondary">
-                Industry: {brandDeal.subject}
-              </div>
-              <p className="badge">
-                Posted {tohumanReadableTime(brandDeal.updated_at)} ago
-              </p>
+        {brandDeals?.filter((brandDeal)=>user.id!== brandDeal.users_id).map((brandDeal) => (
+          <div
+            className={`grid card bg-base-300 rounded-box p-8 gap-2 overflow-visible ${
+              brandDeal.id === brandDealDetails?.id
+                ? "border-r-4 border-primary"
+                : ""
+            }`}
+            key={brandDeal.id}
+            onClick={() => handleSelectBrandDeal(brandDeal.id)}
+          >
+            <h1 className="card-title">{brandDeal.title}</h1>
+            <div className="badge badge-primary">Pay: $ {brandDeal.pay}</div>
+            <div className="badge badge-secondary">
+              Industry: {brandDeal.subject}
             </div>
-          ))}
+            <p className="badge">
+              Posted {tohumanReadableTime(brandDeal.updated_at)} ago
+            </p>
+          </div>
+        ))}
       </div>
       {brandDealDetails && selectedBrandDealId ? (
         <div className="card flex-column w-full glass p-8 gap-2 ">
@@ -115,13 +113,22 @@ const BrowseBrandDeals = () => {
                   <HiLocationMarker />
                   {brandDealDetails?.location}
                 </div>
-                <a
-                  href={`mailto:${brandDealDetails?.email}`}
-                  className="btn btn-success flex items-center gap-2 justify-self-end"
-                >
-                  <MdEmail />
-                  Contact
-                </a>
+                {user.id !== brandDealDetails?.users_id ? (
+                  <a
+                    href={`mailto:${brandDealDetails?.email}`}
+                    className="btn btn-success flex items-center gap-2 justify-self-end"
+                  >
+                    <MdEmail />
+                    Contact
+                  </a>
+                ) : (
+                  <button
+                    className="btn btn-success flex items-center gap-2 justify-self-end"
+                  >
+                    <MdPersonAdd />
+                    Assign Creator
+                  </button>
+                )}
               </div>
               <div className="card flex-column flex-grow w-3/6 bg-base-300 rounded-box p-8 gap-2">
                 <h1 className="card-title">Details:</h1>
