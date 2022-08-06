@@ -22,6 +22,7 @@ const userContextDefaultValues: UserContextType = {
     channel_name: "Marques Brownlee",
     email: "marques@MKBHD.com",
     location: "United States",
+    updated_at: "2020-01-01T00:00:00.000Z",
     profilePicture:
       "https://st3.depositphotos.com/6672868/13701/v/600/depositphotos_137014128-stock-illustration-user-profile-icon.jpg",
     loggedIn: false,
@@ -54,6 +55,7 @@ const UserProvider = ({ children }: Props) => {
     channel_name: "Marques Brownlee",
     email: "marques@MKBHD.com",
     location: "United States",
+    updated_at: "2020-01-01T00:00:00.000Z",
     profilePicture:
       "https://st3.depositphotos.com/6672868/13701/v/600/depositphotos_137014128-stock-illustration-user-profile-icon.jpg",
     loggedIn: false,
@@ -63,7 +65,7 @@ const UserProvider = ({ children }: Props) => {
   //8 - Erik Bryann (2 brand deals)
   useEffect(() => {
     axios
-      .get("http://localhost:8080/users/8")
+      .get("http://localhost:8080/users/1")
       .then((response) => {
         setUser({ ...user, ...response.data });
       })

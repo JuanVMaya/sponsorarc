@@ -1,4 +1,3 @@
-import { useUser } from "../context/userContext";
 import { toHumanReadableNumbers } from "../utils/humanReadableNumbers";
 import { tohumanReadableTime } from "../utils/humanReadableTime";
 
@@ -13,8 +12,6 @@ const CreatorStats = ({
   totalViews,
   videoCount,
 }: AppProps) => {
-  const { user } = useUser();
-
   return (
     <>
       <h1 className="card-title mb-4">Stats</h1>

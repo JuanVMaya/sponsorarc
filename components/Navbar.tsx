@@ -55,7 +55,7 @@ const Navbar = () => {
                 </Link>
               </li>
               <li>
-                <Link href="/branddeals">
+                <Link href="/creators">
                   <a>Creators</a>
                 </Link>
               </li>

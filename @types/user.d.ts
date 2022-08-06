@@ -11,6 +11,7 @@ export interface IUser {
   channel_name: string | null;
   email: string;
   location: string;
+  updated_at: string;
   creatorStartDate?: string;
   subscriberCount?: string;
   totalViews?: string;
