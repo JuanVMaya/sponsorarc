@@ -65,7 +65,7 @@ const UserProvider = ({ children }: Props) => {
   //8 - Erik Bryann (2 brand deals)
   useEffect(() => {
     axios
-      .get("http://localhost:8080/users/8")
+      .get("http://localhost:8080/users/1")
       .then((response) => {
         setUser({ ...user, ...response.data });
       })

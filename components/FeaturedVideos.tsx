@@ -1,4 +1,3 @@
-import { useUser } from "../context/userContext";
 import { AiFillLike } from "react-icons/ai";
 import { BsEyeFill } from "react-icons/bs";
 import { toHumanReadableNumbers } from "../utils/humanReadableNumbers";

@@ -8,6 +8,7 @@ import { MdPersonAdd } from "react-icons/md";
 import { tohumanReadableTime } from "../utils/humanReadableTime";
 import { IUser } from "../@types/user";
 import { IBrandDeal } from "../@types/brandDeal";
+import BrandDealSideCard from "./BrandDealSideCard";
 
 const BrowseBrandDeals = () => {
   const { user } = useUser();
@@ -60,8 +61,8 @@ const BrowseBrandDeals = () => {
       .put(`http://localhost:8080/branddeals/${selectedBrandDealId}/assign`, {
         active_creator_id: assignedCreatorId,
       })
-      .then((resonse) => {
-        console.log(resonse.data);
+      .then((response) => {
+        console.log(response.data);
       })
       .catch((error) => {
         console.log("There was an error assigning creator: ", error);
@@ -84,24 +85,12 @@ const BrowseBrandDeals = () => {
             return user.id === brandDeal.users_id;
           })
           .map((brandDeal) => (
-            <div
-              className={`grid card bg-base-300 rounded-box p-8 gap-2 overflow-visible ${
-                brandDeal.id === brandDealDetails?.id
-                  ? "border-r-4 border-primary"
-                  : ""
-              }`}
+            <BrandDealSideCard
               key={brandDeal.id}
-              onClick={() => handleSelectBrandDeal(brandDeal.id)}
-            >
-              <h1 className="card-title">{brandDeal.title}</h1>
-              <div className="badge badge-primary">Pay: $ {brandDeal.pay}</div>
-              <div className="badge badge-secondary">
-                Industry: {brandDeal.subject}
-              </div>
-              <p className="badge">
-                Posted {tohumanReadableTime(brandDeal.updated_at)} ago
-              </p>
-            </div>
+              brandDeal={brandDeal}
+              brandDealDetails={brandDealDetails}
+              selectBrandDeal={handleSelectBrandDeal}
+            />
           ))}
       </div>
       {brandDealDetails && selectedBrandDealId ? (
