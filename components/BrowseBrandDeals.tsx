@@ -1,32 +1,11 @@
-import FeaturedVideos from "./FeaturedVideos";
 import { useUser } from "../context/userContext";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { MdEmail } from "react-icons/md";
 import { FaUser } from "react-icons/fa";
 import { HiLocationMarker } from "react-icons/hi";
-import { MdPersonAdd } from "react-icons/md";
 import { tohumanReadableTime } from "../utils/humanReadableTime";
-
-interface IBrandDeal {
-  id: number;
-  title: string;
-  description: string;
-  subject: string;
-  pay: number;
-  user_id: number;
-  updated_at: string;
-  timeframe: string;
-  social_networks: string;
-  users_id: number;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  location?: string;
-  industry?: string;
-  company_name?: string;
-  channel_name?: string;
-}
+import { IBrandDeal } from "../@types/brandDeal";
 
 const BrowseBrandDeals = () => {
   const { user } = useUser();

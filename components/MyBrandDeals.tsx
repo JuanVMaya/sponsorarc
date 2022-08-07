@@ -1,4 +1,3 @@
-import FeaturedVideos from "./FeaturedVideos";
 import { useUser } from "../context/userContext";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -8,26 +7,7 @@ import { HiLocationMarker } from "react-icons/hi";
 import { MdPersonAdd } from "react-icons/md";
 import { tohumanReadableTime } from "../utils/humanReadableTime";
 import { IUser } from "../@types/user";
-
-interface IBrandDeal {
-  id: number;
-  title: string;
-  description: string;
-  subject: string;
-  pay: number;
-  user_id: number;
-  updated_at: string;
-  timeframe: string;
-  social_networks: string;
-  users_id: number;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  location?: string;
-  industry?: string;
-  company_name?: string;
-  channel_name?: string;
-}
+import { IBrandDeal } from "../@types/brandDeal";
 
 const BrowseBrandDeals = () => {
   const { user } = useUser();
@@ -35,6 +15,7 @@ const BrowseBrandDeals = () => {
   const [selectedBrandDealId, setSelectedBrandDealId] = useState<number>(1);
   const [brandDealDetails, setBrandDealDetails] = useState<IBrandDeal>();
   const [availableUsers, setAvailableUsers] = useState<IUser[]>([]);
+  const [assignedCreatorId, setAssignedCreatorId] = useState<string>("0"); // Sets to "Select User" in the dropdown by default
 
   useEffect(() => {
     axios
@@ -53,7 +34,7 @@ const BrowseBrandDeals = () => {
         setAvailableUsers(response.data);
       })
       .catch((error) => {
-        console.log("There was an error retrieving brand deals:", error);
+        console.log("There was an error retrieving users deals:", error);
       });
   }, []);
   useEffect(() => {
@@ -61,6 +42,9 @@ const BrowseBrandDeals = () => {
       .get("http://localhost:8080/branddeals/" + selectedBrandDealId)
       .then((response) => {
         setBrandDealDetails(response.data[0]);
+        console.log(response.data[0].active_creator_id);
+
+        setAssignedCreatorId(response.data[0].active_creator_id);
       })
       .catch((error) => {
         console.log("There was an error retrieving brand deals:", error);
@@ -71,11 +55,34 @@ const BrowseBrandDeals = () => {
     setSelectedBrandDealId(id);
   };
 
+  const handleAssignCreator = () => {
+    axios
+      .put(`http://localhost:8080/branddeals/${selectedBrandDealId}/assign`, {
+        active_creator_id: assignedCreatorId,
+      })
+      .then((resonse) => {
+        console.log(resonse.data);
+      })
+      .catch((error) => {
+        console.log("There was an error assigning creator: ", error);
+      });
+  };
+
+  const handleAssignChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    //Controlled assign creator select (dropdown)
+    setAssignedCreatorId(event.target.value);
+  };
+
   return user.loggedIn ? (
     <div className="self-start flex gap-8 flex-grow max-h-[85vh] max-w-full">
       <div className="card w-5/12 glass p-8 gap-2 overflow-auto scrollbar">
         {brandDeals
-          ?.filter((brandDeal) => user.id === brandDeal.users_id)
+          ?.filter((brandDeal) => {
+            if (user.represent === "Creator") {
+              return brandDeal.active_creator_id === user.id;
+            }
+            return user.id === brandDeal.users_id;
+          })
           .map((brandDeal) => (
             <div
               className={`grid card bg-base-300 rounded-box p-8 gap-2 overflow-visible ${
@@ -98,7 +105,7 @@ const BrowseBrandDeals = () => {
           ))}
       </div>
       {brandDealDetails && selectedBrandDealId ? (
-        <div className="card flex-column w-full glass p-8 gap-2 ">
+        <div className="card flex-column w-full glass p-8 gap-2 overflow-auto scrollbar">
           <div className="flex flex-col w-full border-opacity-50 gap-2">
             <div className="grid card bg-base-300 rounded-box p-8">
               <h1 className="card-title">{brandDealDetails?.title}</h1>
@@ -127,8 +134,16 @@ const BrowseBrandDeals = () => {
                   <HiLocationMarker />
                   {brandDealDetails?.location}
                 </div>
+                {user.represent == "Creator" && (
+                  <a
+                    href={`mailto:${brandDealDetails?.email}`}
+                    className="btn btn-success flex items-center gap-2 justify-self-end"
+                  >
+                    <MdEmail />
+                    Contact
+                  </a>
+                )}
               </div>
-
               <div className="card flex-column flex-grow w-3/6 bg-base-300 rounded-box p-8 gap-2">
                 <h1 className="card-title">Details:</h1>
                 <p className="stat-title">Industry</p>
@@ -145,31 +160,42 @@ const BrowseBrandDeals = () => {
                 </div>
               </div>
             </div>
-            <div className="grid card bg-base-300 rounded-box p-8">
-              <div className="form-control w-full max-w-xs">
-                <label className="label">
-                  <span className="label-text">
-                    Pick the creator want to assign to this deal
-                  </span>
-                </label>
-                <select className="select select-bordered">
-                  <option disabled selected>
-                    Pick one
-                  </option>
-                  {availableUsers
-                    .filter((user) => user.represent === "Creator")
-                    .map((user) => (
-                      <option key={user.id}>
-                        {user.channel_name} ({user.first_name} {user.last_name})
-                      </option>
-                    ))}
-                </select>
+            {user.represent == "Brand" && (
+              <div className="grid card bg-base-300 rounded-box p-8">
+                <div className="form-control w-full max-w-xs">
+                  <label className="label">
+                    <span className="label-text">
+                      Pick the creator want to assign to this deal
+                    </span>
+                  </label>
+                  <select
+                    className="select select-bordered"
+                    value={assignedCreatorId}
+                    onChange={handleAssignChange}
+                  >
+                    <option disabled selected>
+                      Pick one
+                    </option>
+                    {availableUsers
+                      .filter((creator) => creator.represent === "Creator")
+                      .map((creator) => (
+                        <option key={creator.id} value={creator.id}>
+                          {creator.channel_name} ({creator.first_name}{" "}
+                          {creator.last_name})
+                        </option>
+                      ))}
+                    <option value="0">Select user</option>
+                  </select>
+                </div>
+                <button
+                  className="btn btn-success flex items-center gap-2 justify-self-end max-w-3/6"
+                  onClick={handleAssignCreator}
+                >
+                  <MdPersonAdd />
+                  Assign Creator
+                </button>
               </div>
-              <button className="btn btn-success flex items-center gap-2 justify-self-end max-w-3/6">
-                <MdPersonAdd />
-                Assign Creator
-              </button>
-            </div>
+            )}
           </div>
         </div>
       ) : (
