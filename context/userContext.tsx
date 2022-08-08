@@ -61,11 +61,12 @@ const UserProvider = ({ children }: Props) => {
     loggedIn: false,
   });
   //1 - Marques Brownlee
+  //5 - MrBeast
   //9 - Tina Rodriguez
   //8 - Erik Bryann (2 brand deals)
   useEffect(() => {
     axios
-      .get("http://localhost:8080/users/1")
+      .get("http://localhost:8080/users/8")
       .then((response) => {
         setUser({ ...user, ...response.data });
       })

@@ -5,6 +5,7 @@ import { MdEmail } from "react-icons/md";
 import { FaUser } from "react-icons/fa";
 import { HiLocationMarker } from "react-icons/hi";
 import { MdPersonAdd } from "react-icons/md";
+import { FaMoneyCheckAlt } from "react-icons/fa";
 import { tohumanReadableTime } from "../utils/humanReadableTime";
 import { IUser } from "../@types/user";
 import { IBrandDeal } from "../@types/brandDeal";
@@ -21,6 +22,9 @@ const BrowseBrandDeals = () => {
   const [brandDealDeliverables, setBrandDealDeliverables] = useState<
     IDeliverable[]
   >([]);
+  const [totalDeliverables, setTotalDeliverables] = useState<number>(0);
+  const [totalDeliverablesCompleted, setTotalDeliverablesCompleted] =
+    useState<number>(0);
 
   useEffect(() => {
     axios
@@ -32,6 +36,7 @@ const BrowseBrandDeals = () => {
         console.log("There was an error retrieving brand deals:", error);
       });
   }, []);
+
   useEffect(() => {
     axios
       .get("http://localhost:8080/users")
@@ -42,6 +47,7 @@ const BrowseBrandDeals = () => {
         console.log("There was an error retrieving users deals:", error);
       });
   }, []);
+
   useEffect(() => {
     axios
       .get("http://localhost:8080/branddeals/" + selectedBrandDealId)
@@ -49,12 +55,20 @@ const BrowseBrandDeals = () => {
         setBrandDealDetails(response.data);
         setAssignedCreatorId(response.data.active_creator_id);
         setBrandDealDeliverables(response.data.deliverables);
-
       })
       .catch((error) => {
         console.log("There was an error retrieving single brand deal:", error);
       });
   }, [selectedBrandDealId]);
+
+  useEffect(() => {
+    setTotalDeliverables(brandDealDeliverables.length);
+    setTotalDeliverablesCompleted(
+      brandDealDeliverables.filter((item) => {
+        return item.completed === 100;
+      }).length
+    );
+  });
 
   const handleSelectBrandDeal = (id: number) => {
     // Controlled select brand card to display details
@@ -73,6 +87,12 @@ const BrowseBrandDeals = () => {
       })
       .then((response) => {
         console.log(response.data);
+        return axios.get(
+          "http://localhost:8080/branddeals/" + selectedBrandDealId
+        );
+      })
+      .then((response) => {
+        setBrandDealDeliverables(response.data.deliverables);
       })
       .catch((error) => {
         console.log("There was an error assigning creator: ", error);
@@ -135,15 +155,23 @@ const BrowseBrandDeals = () => {
                 {brandDealDetails?.description}{" "}
               </p>
             </div>
-            <h1 className="card-title mt-4">Progress</h1>
-            <ul className="steps steps-vertical lg:steps-horizontal">
-              {brandDealDeliverables?.map((deliverable) => {
-                if (deliverable.completed === 100) {
-                  return <li className="step step-success" data-content="✓"></li>;
-                }
-                return <li className="step" data-content="✕"></li>;
-              })}
-            </ul>
+            <div className="card rounded-box">
+              <h1 className="card-title mt-4">Progress</h1>
+              <ul className="steps steps-vertical lg:steps-horizontal">
+                {brandDealDeliverables?.map((deliverable) => {
+                  if (deliverable.completed === 100) {
+                    return (
+                      <li className="step step-success" data-content="✓"></li>
+                    );
+                  }
+                  return <li className="step" data-content="✕"></li>;
+                })}
+              </ul>
+              <p className="badge badge-lg">
+                {totalDeliverablesCompleted} of {totalDeliverables} deliverables
+                completed
+              </p>
+            </div>
 
             {user.represent == "Creator" && (
               <>
@@ -242,13 +270,34 @@ const BrowseBrandDeals = () => {
                     <option value="0">Select user</option>
                   </select>
                 </div>
-                <button
-                  className="btn btn-success flex items-center gap-2 justify-self-end max-w-3/6"
-                  onClick={handleAssignCreator}
-                >
-                  <MdPersonAdd />
-                  Assign Creator
-                </button>
+                <div className="flex gap-2 mt-4">
+                  <button
+                    className="btn btn-success flex items-center gap-2 justify-self-end max-w-3/6"
+                    onClick={handleAssignCreator}
+                    disabled={
+                      assignedCreatorId ===
+                      String(brandDealDetails.active_creator_id)
+                    } //Disable button if creator is already assigned to the existing one
+                  >
+                    <MdPersonAdd />
+                    Assign Creator
+                  </button>
+                  <div className="tooltip" data-tip="Redirect to the payment page">
+                  <button
+                    className="btn btn-primary flex items-center gap-2 justify-self-end max-w-3/6"
+                    onClick={handleAssignCreator}
+                    disabled={//Enable button if all deliverables are completed
+                      !(
+                        totalDeliverables !== 0 &&
+                        totalDeliverablesCompleted / totalDeliverables === 1
+                      )
+                    }
+                  >
+                    <FaMoneyCheckAlt />
+                    Pay Creator
+                  </button>
+                  </div>
+                </div>
               </div>
             )}
           </div>

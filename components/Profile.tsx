@@ -40,10 +40,12 @@ const Profile = () => {
               <RiSettings3Fill />
               &nbsp;Edit Profile
             </button>
-            <button className="btn btn-secondary mt-4">
-              <AiFillFileAdd />
-              &nbsp;New Brand Deal
-            </button>
+            {user.represent === "Brand" && (
+              <button className="btn btn-secondary mt-4">
+                <AiFillFileAdd />
+                &nbsp;New Brand Deal
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -67,7 +69,9 @@ const Profile = () => {
           {user.represent === "Brand" && <BrandDeals />}
           {user.represent === "Creator" && (
             <>
-              {user.featuredVideos && <FeaturedVideos featuredVideos={user.featuredVideos}/>}
+              {user.featuredVideos && (
+                <FeaturedVideos featuredVideos={user.featuredVideos} />
+              )}
               <div className="divider" />
               <CreatorStats
                 creatorStartDate={user.creatorStartDate}

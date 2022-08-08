@@ -30,7 +30,7 @@ const BrandDeals = () => {
                   {tohumanReadableTime(deal.updated_at)} ago
                 </div>
                 <div className="card-actions justify-end">
-                  <a className="btn btn-primary">Edit</a>
+                  <a className="btn btn-sm btn-primary">Edit</a>
                 </div>
               </div>
             </div>
