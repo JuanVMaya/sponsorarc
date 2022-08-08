@@ -11,7 +11,7 @@ import BrandDealSideCard from "./BrandDealSideCard";
 const BrowseBrandDeals = () => {
   const { user } = useUser();
   const [brandDeals, setBrandDeals] = useState<IBrandDeal[]>([]);
-  const [selectedBrandDealId, setSelectedBrandDealId] = useState<number>(0);
+  const [selectedBrandDealId, setSelectedBrandDealId] = useState<number>(1);
   const [brandDealDetails, setBrandDealDetails] = useState<IBrandDeal>();
 
   useEffect(() => {
@@ -28,7 +28,7 @@ const BrowseBrandDeals = () => {
     axios
       .get("http://localhost:8080/branddeals/" + selectedBrandDealId)
       .then((response) => {
-        setBrandDealDetails(response.data[0]);
+        setBrandDealDetails(response.data);
       })
       .catch((error) => {
         console.log("There was an error retrieving brand deals:", error);
@@ -36,22 +36,21 @@ const BrowseBrandDeals = () => {
   }, [selectedBrandDealId]);
 
   const handleSelectBrandDeal = (id: number) => {
+    // Controlled select brand card to display details
     setSelectedBrandDealId(id);
   };
 
   return user.loggedIn ? (
     <div className="self-start flex gap-8 flex-grow max-h-[85vh] max-w-full">
       <div className="card w-5/12 glass p-8 gap-2 overflow-auto scrollbar">
-        {brandDeals
-          ?.filter((brandDeal) => user.id !== brandDeal.users_id)
-          .map((brandDeal) => (
-            <BrandDealSideCard
-              key={brandDeal.id}
-              brandDeal={brandDeal}
-              brandDealDetails={brandDealDetails}
-              selectBrandDeal={handleSelectBrandDeal}
-            />
-          ))}
+        {brandDeals?.map((brandDeal) => (
+          <BrandDealSideCard
+            key={brandDeal.id}
+            brandDeal={brandDeal}
+            brandDealDetails={brandDealDetails}
+            selectBrandDeal={handleSelectBrandDeal}
+          />
+        ))}
       </div>
       {selectedBrandDealId && brandDealDetails ? (
         <div className="card flex-column w-full glass p-8 gap-2 ">

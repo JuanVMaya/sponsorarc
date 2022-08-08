@@ -46,8 +46,8 @@ const BrowseBrandDeals = () => {
     axios
       .get("http://localhost:8080/branddeals/" + selectedBrandDealId)
       .then((response) => {
-        setAssignedCreatorId(response.data.active_creator_id);
         setBrandDealDetails(response.data);
+        setAssignedCreatorId(response.data.active_creator_id);
         setBrandDealDeliverables(response.data.deliverables);
 
       })
