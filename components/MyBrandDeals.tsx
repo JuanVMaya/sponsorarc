@@ -1,15 +1,23 @@
 import { useUser } from "../context/userContext";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { tohumanReadableTime } from "../utils/humanReadableTime";
+
+// Icons
 import { MdEmail } from "react-icons/md";
 import { FaUser } from "react-icons/fa";
 import { HiLocationMarker } from "react-icons/hi";
 import { MdPersonAdd } from "react-icons/md";
 import { FaMoneyCheckAlt } from "react-icons/fa";
-import { tohumanReadableTime } from "../utils/humanReadableTime";
+import { AiFillFileAdd } from "react-icons/ai";
+import { MdCancel } from "react-icons/md";
+
+// Components
+import BrandDealSideCard from "./BrandDealSideCard";
+import NewBrandDeal from "./NewBrandDeal";
+// Types
 import { IUser } from "../@types/user";
 import { IBrandDeal } from "../@types/brandDeal";
-import BrandDealSideCard from "./BrandDealSideCard";
 import { IDeliverable } from "../@types/deliverable";
 
 const BrowseBrandDeals = () => {
@@ -25,6 +33,7 @@ const BrowseBrandDeals = () => {
   const [totalDeliverables, setTotalDeliverables] = useState<number>(0);
   const [totalDeliverablesCompleted, setTotalDeliverablesCompleted] =
     useState<number>(0);
+  const [showNewBrandDeal, setShowNewBrandDeal] = useState<boolean>(false);
 
   useEffect(() => {
     axios
@@ -70,16 +79,6 @@ const BrowseBrandDeals = () => {
     );
   });
 
-  const handleSelectBrandDeal = (id: number) => {
-    // Controlled select brand card to display details
-    setSelectedBrandDealId(id);
-  };
-
-  const handleAssignChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    //Controlled assign creator select (dropdown)
-    setAssignedCreatorId(event.target.value);
-  };
-
   const handleAssignCreator = () => {
     axios
       .put(`http://localhost:8080/branddeals/${selectedBrandDealId}/assign`, {
@@ -123,6 +122,26 @@ const BrowseBrandDeals = () => {
       });
   };
 
+  const handleSelectBrandDeal = (id: number) => {
+    // Controlled select brand card to display details
+    setSelectedBrandDealId(id);
+    setShowNewBrandDeal(false);
+  };
+
+  const handleAssignChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    //Controlled assign creator select (dropdown)
+    setAssignedCreatorId(event.target.value);
+  };
+
+  const handleAddBrandDeal = () => {
+    // Controlled select brand card to display details
+    setShowNewBrandDeal(!showNewBrandDeal);
+  };
+
+  const handleSaveBrandDeal = (id: number) => {
+    setSelectedBrandDealId(id);
+  };
+
   return user.loggedIn ? (
     <div className="self-start flex gap-8 flex-grow max-h-[85vh] max-w-full">
       <div className="card w-5/12 glass p-8 gap-2 overflow-auto scrollbar">
@@ -141,8 +160,27 @@ const BrowseBrandDeals = () => {
               selectBrandDeal={handleSelectBrandDeal}
             />
           ))}
+        <button className="btn btn-outline" onClick={handleAddBrandDeal}>
+          {showNewBrandDeal ? (
+            <>
+              <MdCancel />
+              &nbsp;Cancel{" "}
+            </>
+          ) : (
+            <>
+              <AiFillFileAdd />
+              &nbsp; New Brand Deal
+            </>
+          )}
+        </button>
       </div>
-      {brandDealDetails && selectedBrandDealId ? (
+      {showNewBrandDeal && selectedBrandDealId && (
+        <div className="card flex-column w-full glass p-8 gap-2 overflow-auto scrollbar">
+          <NewBrandDeal />
+        </div>
+      )}
+
+      {brandDealDetails && selectedBrandDealId && !showNewBrandDeal && (
         <div className="card flex-column w-full glass p-8 gap-2 overflow-auto scrollbar">
           <div className="flex flex-col w-full border-opacity-50 gap-2">
             <div className="grid card bg-base-300 rounded-box p-8">
@@ -161,10 +199,20 @@ const BrowseBrandDeals = () => {
                 {brandDealDeliverables?.map((deliverable) => {
                   if (deliverable.completed === 100) {
                     return (
-                      <li className="step step-success" data-content="✓"></li>
+                      <li
+                        key={deliverable.id}
+                        className="step step-success"
+                        data-content="✓"
+                      ></li>
                     );
                   }
-                  return <li className="step" data-content="✕"></li>;
+                  return (
+                    <li
+                      key={deliverable.id}
+                      className="step"
+                      data-content="✕"
+                    ></li>
+                  );
                 })}
               </ul>
               <p className="badge badge-lg">
@@ -199,6 +247,67 @@ const BrowseBrandDeals = () => {
                   })}
                 </div>
               </>
+            )}
+            {user.represent == "Brand" && (
+              <div className="grid card bg-base-300 rounded-box p-8">
+                <div className="form-control w-full max-w-xs">
+                  <label className="label">
+                    <span className="label-text">
+                      Pick the creator want to assign to this deal to:
+                    </span>
+                  </label>
+                  <select
+                    className="select select-bordered"
+                    value={assignedCreatorId}
+                    onChange={handleAssignChange}
+                  >
+                    <option disabled selected>
+                      Pick one
+                    </option>
+                    {availableUsers
+                      .filter((creator) => creator.represent === "Creator")
+                      .map((creator) => (
+                        <option key={creator.id} value={creator.id}>
+                          {creator.channel_name} ({creator.first_name}{" "}
+                          {creator.last_name})
+                        </option>
+                      ))}
+                    <option value="0">Select user</option>
+                  </select>
+                </div>
+                <div className="flex gap-2 mt-4">
+                  <button
+                    className="btn btn-success flex items-center gap-2 justify-self-end max-w-3/6"
+                    onClick={handleAssignCreator}
+                    disabled={
+                      assignedCreatorId ===
+                      String(brandDealDetails.active_creator_id)
+                    } //Disable button if creator is already assigned to the existing one
+                  >
+                    <MdPersonAdd />
+                    Assign Creator
+                  </button>
+                  <div
+                    className="tooltip"
+                    data-tip="Redirect to the payment page"
+                  >
+                    <button
+                      className="btn btn-primary flex items-center gap-2 justify-self-end max-w-3/6"
+                      onClick={handleAssignCreator}
+                      disabled={
+                        //Enable button if all deliverables are completed
+                        !(
+                          totalDeliverables !== 0 &&
+                          totalDeliverablesCompleted / totalDeliverables === 1
+                        )
+                      }
+                    >
+                      <FaMoneyCheckAlt />
+                      Pay Creator
+                    </button>
+                  </div>
+                </div>
+              </div>
             )}
             <div className="flex gap-4">
               <div className="card flex-column flex-grow w-3/6 bg-base-300 rounded-box p-8 gap-2">
@@ -243,66 +352,10 @@ const BrowseBrandDeals = () => {
                 </div>
               </div>
             </div>
-            {user.represent == "Brand" && (
-              <div className="grid card bg-base-300 rounded-box p-8">
-                <div className="form-control w-full max-w-xs">
-                  <label className="label">
-                    <span className="label-text">
-                      Pick the creator want to assign to this deal
-                    </span>
-                  </label>
-                  <select
-                    className="select select-bordered"
-                    value={assignedCreatorId}
-                    onChange={handleAssignChange}
-                  >
-                    <option disabled selected>
-                      Pick one
-                    </option>
-                    {availableUsers
-                      .filter((creator) => creator.represent === "Creator")
-                      .map((creator) => (
-                        <option key={creator.id} value={creator.id}>
-                          {creator.channel_name} ({creator.first_name}{" "}
-                          {creator.last_name})
-                        </option>
-                      ))}
-                    <option value="0">Select user</option>
-                  </select>
-                </div>
-                <div className="flex gap-2 mt-4">
-                  <button
-                    className="btn btn-success flex items-center gap-2 justify-self-end max-w-3/6"
-                    onClick={handleAssignCreator}
-                    disabled={
-                      assignedCreatorId ===
-                      String(brandDealDetails.active_creator_id)
-                    } //Disable button if creator is already assigned to the existing one
-                  >
-                    <MdPersonAdd />
-                    Assign Creator
-                  </button>
-                  <div className="tooltip" data-tip="Redirect to the payment page">
-                  <button
-                    className="btn btn-primary flex items-center gap-2 justify-self-end max-w-3/6"
-                    onClick={handleAssignCreator}
-                    disabled={//Enable button if all deliverables are completed
-                      !(
-                        totalDeliverables !== 0 &&
-                        totalDeliverablesCompleted / totalDeliverables === 1
-                      )
-                    }
-                  >
-                    <FaMoneyCheckAlt />
-                    Pay Creator
-                  </button>
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
         </div>
-      ) : (
+      )}
+      {!showNewBrandDeal && !selectedBrandDealId && (
         <div className="alert alert-info shadow-lg mb-auto">
           <div>
             <svg

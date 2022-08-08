@@ -20,7 +20,6 @@ const BrandDealSideCard = ({
       className={`grid card bg-base-300 rounded-box p-8 gap-2 overflow-visible ${
         brandDeal.id === brandDealDetails?.id ? "border-r-4 border-primary" : ""
       }`}
-      key={brandDeal.id}
       onClick={handleSelectBrandDeal}
     >
       <h1 className="card-title">{brandDeal.title}</h1>
