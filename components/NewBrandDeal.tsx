@@ -1,9 +1,11 @@
-import Link from "next/link";
 import { useUser } from "../context/userContext";
 import { useState } from "react";
 import axios from "axios";
 
-const NewBrandDeal = () => {
+type AppProps = {
+  saveBrandDeal: (id: number) => void;
+};
+const NewBrandDeal = ({ saveBrandDeal }: AppProps) => {
   const { user } = useUser();
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
@@ -13,6 +15,7 @@ const NewBrandDeal = () => {
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
+
     if (name === "title") {
       setTitle(value);
     } else if (name === "subject") {
@@ -32,15 +35,21 @@ const NewBrandDeal = () => {
 
   const handleSaveBrandDeal = async (event: React.SyntheticEvent) => {
     event.preventDefault();
-    const response = await axios.post(`http://localhost:8080/branddeals`, {
-      users_id: user.id,
-      title,
-      description,
-      subject,
-      pay,
-      timeframe,
-    });
-    console.log(response);
+    console.log(user.id, title, description, subject, pay);
+
+    try {
+      const response = await axios.post(`http://localhost:8080/branddeals`, {
+        users_id: user.id,
+        title,
+        description,
+        subject,
+        pay,
+      });
+
+      saveBrandDeal(response.data.newBrandDealId);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -103,7 +112,12 @@ const NewBrandDeal = () => {
         </div>
 
         <div className="flex justify-end mt-4 gap-4">
-          <button className="btn btn-success">Save</button>
+          <button
+            className="btn btn-success"
+            disabled={!title || !description || !subject || !pay}
+          >
+            Save
+          </button>
         </div>
       </form>
     </>

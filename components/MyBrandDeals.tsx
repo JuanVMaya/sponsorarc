@@ -140,6 +140,7 @@ const BrowseBrandDeals = () => {
 
   const handleSaveBrandDeal = (id: number) => {
     setSelectedBrandDealId(id);
+    setShowNewBrandDeal(false);
   };
 
   return user.loggedIn ? (
@@ -176,7 +177,7 @@ const BrowseBrandDeals = () => {
       </div>
       {showNewBrandDeal && selectedBrandDealId && (
         <div className="card flex-column w-full glass p-8 gap-2 overflow-auto scrollbar">
-          <NewBrandDeal />
+          <NewBrandDeal saveBrandDeal={handleSaveBrandDeal} />
         </div>
       )}
 
@@ -248,8 +249,9 @@ const BrowseBrandDeals = () => {
                 </div>
               </>
             )}
+
             {user.represent == "Brand" && (
-              <div className="grid card bg-base-300 rounded-box p-8">
+              <div className="grid card bg-base-300 rounded-box p-8 mt-4">
                 <div className="form-control w-full max-w-xs">
                   <label className="label">
                     <span className="label-text">
@@ -309,6 +311,7 @@ const BrowseBrandDeals = () => {
                 </div>
               </div>
             )}
+            <div className="divider" />
             <div className="flex gap-4">
               <div className="card flex-column flex-grow w-3/6 bg-base-300 rounded-box p-8 gap-2">
                 <h1 className="card-title mb-2">Contact Information:</h1>
