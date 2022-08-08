@@ -1,4 +1,5 @@
-// @types.user.ts
+import { IDeliverable } from "./deliverable";
+// @types.brandDeal.ts
 export interface IBrandDeal {
   id: number;
   title: string;
@@ -12,6 +13,7 @@ export interface IBrandDeal {
   completed: number;
   active_creator_id: number;
   users_id: number;
+  deliverables?: [ deliverable: IDeliverable ];
   first_name?: string;
   last_name?: string;
   email?: string;

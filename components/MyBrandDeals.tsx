@@ -14,6 +14,7 @@ const BrowseBrandDeals = () => {
   const { user } = useUser();
   const [brandDeals, setBrandDeals] = useState<IBrandDeal[]>([]);
   const [selectedBrandDealId, setSelectedBrandDealId] = useState<number>(1);
+  const [selectedDeliverableId, setSelectedDeliverableId] = useState<number>(0);
   const [brandDealDetails, setBrandDealDetails] = useState<IBrandDeal>();
   const [availableUsers, setAvailableUsers] = useState<IUser[]>([]);
   const [assignedCreatorId, setAssignedCreatorId] = useState<string>("0"); // Sets to "Select User" in the dropdown by default
@@ -42,18 +43,22 @@ const BrowseBrandDeals = () => {
     axios
       .get("http://localhost:8080/branddeals/" + selectedBrandDealId)
       .then((response) => {
-        setBrandDealDetails(response.data[0]);
-        console.log(response.data[0].active_creator_id);
-
-        setAssignedCreatorId(response.data[0].active_creator_id);
+        setAssignedCreatorId(response.data.active_creator_id);
+        setBrandDealDetails(response.data);
       })
       .catch((error) => {
-        console.log("There was an error retrieving brand deals:", error);
+        console.log("There was an error retrieving single brand deal:", error);
       });
   }, [selectedBrandDealId]);
 
   const handleSelectBrandDeal = (id: number) => {
+    // Controlled select brand card to display details
     setSelectedBrandDealId(id);
+  };
+
+  const handleAssignChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    //Controlled assign creator select (dropdown)
+    setAssignedCreatorId(event.target.value);
   };
 
   const handleAssignCreator = () => {
@@ -68,10 +73,24 @@ const BrowseBrandDeals = () => {
         console.log("There was an error assigning creator: ", error);
       });
   };
-
-  const handleAssignChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    //Controlled assign creator select (dropdown)
-    setAssignedCreatorId(event.target.value);
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(event.target.checked);
+    axios
+      .put(
+        `http://localhost:8080/branddeals/${selectedBrandDealId}/deliverable/${event.target.name}`,
+        {
+          completed: event.target.checked,
+        }
+      )
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(
+          "There was an error updating the deliverable creator: ",
+          error
+        );
+      });
   };
 
   return user.loggedIn ? (
@@ -149,6 +168,44 @@ const BrowseBrandDeals = () => {
                 </div>
               </div>
             </div>
+
+            <h1 className="card-title mt-4">Progress</h1>
+            <ul className="steps steps-vertical lg:steps-horizontal">
+              <li className="step step-primary"></li>
+              <li className="step step-primary"></li>
+              <li className="step"></li>
+            </ul>
+            {user.represent == "Creator" && (
+              <>
+                <h1 className="card-title mt-4">Deliverables</h1>
+                <div className="grid card bg-base-300 rounded-box p-8">
+                  {brandDealDetails?.deliverables?.map((deliverable) => {
+                    return (
+                      <div className="form-control" key={deliverable.id}>
+                        <label className="label cursor-pointer">
+                          <ul>
+                            <li>Item 1</li>
+                            <li>Item 1</li>
+                          </ul>
+                          <span className="label-text">
+                            {deliverable.title}
+                          </span>
+                          <input
+                            name={String(deliverable.id)}
+                            type="checkbox"
+                            className="checkbox checkbox-primary"
+                            onChange={handleCheckboxChange}
+                            defaultChecked={
+                              deliverable.completed ? true : false
+                            }
+                          />
+                        </label>
+                      </div>
+                    );
+                  })}
+                </div>
+              </>
+            )}
             {user.represent == "Brand" && (
               <div className="grid card bg-base-300 rounded-box p-8">
                 <div className="form-control w-full max-w-xs">
