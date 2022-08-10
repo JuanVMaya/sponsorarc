@@ -17,7 +17,7 @@ const BrandDealSideCard = ({
   };
   return (
     <div
-      className={`grid card bg-base-300 rounded-box p-8 gap-2 overflow-visible ${
+      className={`grid card bg-base-300 rounded-box p-8 gap-2 overflow-visible min-w-[10rem] ${
         brandDeal.id === brandDealDetails?.id ? "border-r-4 border-primary" : ""
       }`}
       onClick={handleSelectBrandDeal}

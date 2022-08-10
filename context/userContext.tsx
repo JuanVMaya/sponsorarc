@@ -62,8 +62,10 @@ const UserProvider = ({ children }: Props) => {
   });
   //1 - Marques Brownlee
   //5 - MrBeast
+  //7- iJustine
   //9 - Tina Rodriguez
   //8 - Erik Bryann (2 brand deals)
+  // You will need to change the id to the user id you want to navigate with
   useEffect(() => {
     axios
       .get("http://localhost:8080/users/8")

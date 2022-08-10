@@ -9,8 +9,8 @@ import BrandDeals from "./BrandDeals";
 const Profile = () => {
   const { user } = useUser();
   return user.loggedIn ? (
-    <div className="self-start flex gap-8 flex-grow h-full max-w-full">
-      <div className="card w-4/12 glass pt-8 self-start">
+    <div className="self-start flex gap-8 flex-grow h-full max-w-full flex-col md:flex-row">
+      <div className="card glass items-center pt-8 self-start w-full md:w-4/12 md:items-left">
         <figure>
           <img
             className="rounded-full w-24 m-auto"

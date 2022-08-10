@@ -7,11 +7,11 @@ const BrandDeals = () => {
   return (
     <>
       <h2 className="font-semibold text-lg mb-4">Brand Deals</h2>
-      <section className="flex max-w-full justify-between">
+      <section className="flex max-w-full flex-wrap gap-4 justify-center sm:justify-between">
         {user.brandDeals?.map((deal) => {
           return (
             <div
-              className="card card-compact w-[32%] bg-base-100 shadow-xl"
+              className="card card-compact min-w-[16rem] w-[32%] bg-base-100 shadow-xl"
               key={deal.id}
             >
               <div className="card-body">

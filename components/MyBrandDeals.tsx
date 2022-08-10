@@ -77,7 +77,7 @@ const BrowseBrandDeals = () => {
         return item.completed === 100;
       }).length
     );
-  });
+  }, [brandDealDeliverables]);
 
   const handleAssignCreator = () => {
     axios
@@ -144,8 +144,8 @@ const BrowseBrandDeals = () => {
   };
 
   return user.loggedIn ? (
-    <div className="self-start flex gap-8 flex-grow max-h-[85vh] max-w-full">
-      <div className="card w-5/12 glass p-8 gap-2 overflow-auto scrollbar">
+    <div className="self-start flex gap-8 flex-grow max-h-[85vh] max-w-full flex-col md:flex-row">
+      <div className="card w-5/12 glass p-4 sm:p-8 gap-2 overflow-auto scrollbar min-w-[20rem]">
         {brandDeals
           ?.filter((brandDeal) => {
             if (user.represent === "Creator") {
@@ -161,28 +161,30 @@ const BrowseBrandDeals = () => {
               selectBrandDeal={handleSelectBrandDeal}
             />
           ))}
-        <button className="btn btn-outline" onClick={handleAddBrandDeal}>
-          {showNewBrandDeal ? (
-            <>
-              <MdCancel />
-              &nbsp;Cancel{" "}
-            </>
-          ) : (
-            <>
-              <AiFillFileAdd />
-              &nbsp; New Brand Deal
-            </>
-          )}
-        </button>
+        {user.represent === "Brand" && (
+          <button className="btn btn-outline" onClick={handleAddBrandDeal}>
+            {showNewBrandDeal ? (
+              <>
+                <MdCancel />
+                &nbsp;Cancel{" "}
+              </>
+            ) : (
+              <>
+                <AiFillFileAdd />
+                &nbsp; New Brand Deal
+              </>
+            )}
+          </button>
+        )}
       </div>
       {showNewBrandDeal && selectedBrandDealId && (
-        <div className="card flex-column w-full glass p-8 gap-2 overflow-auto scrollbar">
+        <div className="card flex-column w-full glass p-4 sm:p-8 gap-2 overflow-auto scrollbar">
           <NewBrandDeal saveBrandDeal={handleSaveBrandDeal} />
         </div>
       )}
 
       {brandDealDetails && selectedBrandDealId && !showNewBrandDeal && (
-        <div className="card flex-column w-full glass p-8 gap-2 overflow-auto scrollbar">
+        <div className="card flex-column w-full glass p-4 sm:p-8 gap-2 overflow-auto scrollbar">
           <div className="flex flex-col w-full border-opacity-50 gap-2">
             <div className="grid card bg-base-300 rounded-box p-8">
               <h1 className="card-title">{brandDealDetails?.title}</h1>
@@ -230,9 +232,14 @@ const BrowseBrandDeals = () => {
                     return (
                       <div className="form-control" key={deliverable.id}>
                         <label className="label cursor-pointer">
-                          <span className="label-text">
-                            {deliverable.title}
-                          </span>
+                          <div
+                            className="tooltip tooltip-right"
+                            data-tip={deliverable.description}
+                          >
+                            <span className="label-text">
+                              {deliverable.title}
+                            </span>
+                          </div>
                           <input
                             name={String(deliverable.id)}
                             type="checkbox"
@@ -251,7 +258,7 @@ const BrowseBrandDeals = () => {
             )}
 
             {user.represent == "Brand" && (
-              <div className="grid card bg-base-300 rounded-box p-8 mt-4">
+              <div className="grid card bg-base-300 rounded-box p-4 mt-4 sm:p-8">
                 <div className="form-control w-full max-w-xs">
                   <label className="label">
                     <span className="label-text">
@@ -279,7 +286,7 @@ const BrowseBrandDeals = () => {
                 </div>
                 <div className="flex gap-2 mt-4">
                   <button
-                    className="btn btn-success flex items-center gap-2 justify-self-end max-w-3/6"
+                    className="btn btn-success btn-sm sm:btn-md flex items-center gap-2 justify-self-end max-w-3/6"
                     onClick={handleAssignCreator}
                     disabled={
                       assignedCreatorId ===
@@ -294,8 +301,7 @@ const BrowseBrandDeals = () => {
                     data-tip="Redirect to the payment page"
                   >
                     <button
-                      className="btn btn-primary flex items-center gap-2 justify-self-end max-w-3/6"
-                      onClick={handleAssignCreator}
+                      className="btn btn-primary btn-sm sm:btn-md flex items-center gap-2 justify-self-end max-w-3/6"
                       disabled={
                         //Enable button if all deliverables are completed
                         !(
@@ -309,11 +315,35 @@ const BrowseBrandDeals = () => {
                     </button>
                   </div>
                 </div>
+                <h1 className="card-title mt-8 mb-4">Deliverables</h1>
+                {brandDealDeliverables?.map((deliverable) => {
+                  return (
+                    <div className="form-control " key={deliverable.id}>
+                      <label className="label cursor-pointer ">
+                        <div
+                          className="tooltip tooltip-right"
+                          data-tip={deliverable.description}
+                        >
+                          <span className="label-text">
+                            {deliverable.title}
+                          </span>
+                        </div>
+                        <input
+                          name={String(deliverable.id)}
+                          type="checkbox"
+                          className="checkbox checkbox-primary"
+                          onChange={handleCheckboxChange}
+                          defaultChecked={deliverable.completed ? true : false}
+                        />
+                      </label>
+                    </div>
+                  );
+                })}
               </div>
             )}
             <div className="divider" />
-            <div className="flex gap-4">
-              <div className="card flex-column flex-grow w-3/6 bg-base-300 rounded-box p-8 gap-2">
+            <div className="flex gap-4 flex-col sm:flex-row">
+              <div className="card flex-column flex-grow w-full sm:w-3/6 bg-base-300 rounded-box p-8 gap-2">
                 <h1 className="card-title mb-2">Contact Information:</h1>
                 <div className="flex items-center gap-2">
                   <FaUser />
@@ -339,7 +369,7 @@ const BrowseBrandDeals = () => {
                   </a>
                 )}
               </div>
-              <div className="card flex-column flex-grow w-3/6 bg-base-300 rounded-box p-8 gap-2">
+              <div className="card flex-column flex-grow w-full sm:w-3/6 bg-base-300 rounded-box p-8 gap-2">
                 <h1 className="card-title">Details:</h1>
                 <p className="stat-title">Industry</p>
                 <div className="badge badge-secondary font-semibold">
