@@ -34,6 +34,8 @@ const BrowseBrandDeals = () => {
   const [totalDeliverablesCompleted, setTotalDeliverablesCompleted] =
     useState<number>(0);
   const [showNewBrandDeal, setShowNewBrandDeal] = useState<boolean>(false);
+  const [showAssignCreatorNotice, setShowAssignCreatorNotice] =
+    useState<boolean>(false);
 
   useEffect(() => {
     axios
@@ -64,6 +66,8 @@ const BrowseBrandDeals = () => {
         setBrandDealDetails(response.data);
         setAssignedCreatorId(response.data.active_creator_id);
         setBrandDealDeliverables(response.data.deliverables);
+        setShowAssignCreatorNotice(false);
+
       })
       .catch((error) => {
         console.log("There was an error retrieving single brand deal:", error);
@@ -91,6 +95,7 @@ const BrowseBrandDeals = () => {
         );
       })
       .then((response) => {
+        setShowAssignCreatorNotice(true);
         setBrandDealDeliverables(response.data.deliverables);
       })
       .catch((error) => {
@@ -314,6 +319,27 @@ const BrowseBrandDeals = () => {
                       Pay Creator
                     </button>
                   </div>
+
+                  {showAssignCreatorNotice && (
+                    <div className="alert alert-success shadow-lg mb-auto">
+                      <div>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          className="stroke-current flex-shrink-0 w-6 h-6"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          ></path>
+                        </svg>
+                        <span>The creator has been assigned.</span>
+                      </div>
+                    </div>
+                  )}
                 </div>
                 <h1 className="card-title mt-8 mb-4">Deliverables</h1>
                 {brandDealDeliverables?.map((deliverable) => {

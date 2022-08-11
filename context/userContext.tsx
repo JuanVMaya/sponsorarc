@@ -60,9 +60,10 @@ const UserProvider = ({ children }: Props) => {
       "https://st3.depositphotos.com/6672868/13701/v/600/depositphotos_137014128-stock-illustration-user-profile-icon.jpg",
     loggedIn: false,
   });
+  // Seeded for testing purposes
   //1 - Marques Brownlee
   //5 - MrBeast
-  //7- iJustine
+  //7 - iJustine
   //9 - Tina Rodriguez
   //8 - Erik Bryann (2 brand deals)
   // You will need to change the id to the user id you want to navigate with
