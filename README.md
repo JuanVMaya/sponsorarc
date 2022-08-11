@@ -3,9 +3,13 @@
  ### 💻 Installing / Getting Started: <br>
 **Development:**
 - Clone repo => git clone repo-url
-- Go into porject directory (sponsoarc or sponsorarc-api for the backend) 
+- Go into porject directory (sponsoarc or sponsorarc-api for the backend):
 ```bash 
-cd sponsorarc or cd sponsorarc-api
+cd sponsorarc 
+```
+or:
+```bash 
+cd sponsorarc-api
 ```
 - Install dependencies 
 ```bash
@@ -33,23 +37,26 @@ From the content creator side, the can browse through deals/contracts. From the 
 
 ## 📸 Screenshots (Presentation):
 - ### **The Problem**
-![Teck ](../Extra%20Assets/TheProblem.png)
+![image](https://user-images.githubusercontent.com/39928097/184057880-c049f5cb-a208-4de6-8373-f629872d1008.png)
+
 - ### **Home Page**
-![Teck ](../Extra%20Assets/HomePage.png)
-- ### **My Deals**
-![Teck ](../Extra%20Assets/MyDealsBrand.png)
+![image](https://user-images.githubusercontent.com/39928097/184057906-c20eff0f-e410-453a-a9ec-8a7868bf3156.png)
+
+- ### **My Deals Page**
+![image](https://user-images.githubusercontent.com/39928097/184057942-87a782b1-ace0-4533-a04c-2d42de2f8f10.png)
+
 - ### **Browse Creator**
-![Teck ](../Extra%20Assets/BrowseCreator.png)
+![image](https://user-images.githubusercontent.com/39928097/184057970-ec9faf53-a2b0-4b95-9622-292d55a3e23f.png)
 
 ## Next Steps
-- Adding user preferences and filtering based on industry
+- Adding user preferences and filtering based on induDstry
 - Adding authentication
 - Adding ability to pay a creator
 - Support more content creator platforms (i.e. TikTok, Twitch, etc).
 
 ## 🛠 Tech Stack
 
-![Teck ](../Extra%20Assets/Capstone%20Presentation.png)
+![image](https://user-images.githubusercontent.com/39928097/184057990-d32b3c0f-ffc2-41a9-a65c-e9c5da136cf3.png)
 
 ## License
 
