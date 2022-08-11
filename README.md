@@ -1,34 +1,56 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# SponsorArc
 
-## Getting Started
-
-First, run the development server:
-
+ ### 💻 Installing / Getting Started: <br>
+**Development:**
+- Clone repo => git clone repo-url
+- Go into porject directory (sponsoarc or sponsorarc-api for the backend) 
+```bash 
+cd sponsorarc or cd sponsorarc-api
+```
+- Install dependencies 
+```bash
+npm install
+```
+- Start the development server => 
 ```bash
 npm run dev
-# or
-yarn dev
+```
+- Create a YouTube Data API key through Google Cloud console and your Google account. For demo purposes, please feel free to contact me directly. I can provide a working API key if it is easier for you. This should be added in the .env file. A sample.env has been provided.
+- You will also need to run the migrations and the seeds in knex to set up the database schemas and seed data. 
+```bash
+[npx] knex migrate:latest
+[npx] knex seed:run
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Open http://localhost:3000 in your browser to see the app. (If using front-end repo).
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## 📝 Description
+Web application that lets content creators connect with sponsor brands. Brands will have the ability to showcase their products to the correct audience though creators. The app is destined for content creator and brands of any kind or industry.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+From the content creator side, the can browse through deals/contracts. From the brand perspective, they will receive recommended creators that suit the services/product they are trying to showcase. There is a special consideration given that there are two types of users a brand and a creator.
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+## 📸 Screenshots (Presentation):
+- ### **The Problem**
+![Teck ](../Extra%20Assets/TheProblem.png)
+- ### **Home Page**
+![Teck ](../Extra%20Assets/HomePage.png)
+- ### **My Deals**
+![Teck ](../Extra%20Assets/MyDealsBrand.png)
+- ### **Browse Creator**
+![Teck ](../Extra%20Assets/BrowseCreator.png)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Next Steps
+- Adding user preferences and filtering based on industry
+- Adding authentication
+- Adding ability to pay a creator
+- Support more content creator platforms (i.e. TikTok, Twitch, etc).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## 🛠 Tech Stack
 
-## Deploy on Vercel
+![Teck ](../Extra%20Assets/Capstone%20Presentation.png)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## License
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+[MIT](https://choosealicense.com/licenses/mit/)
